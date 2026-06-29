@@ -270,25 +270,54 @@
   });
 
   /* ---------- Reels: play inside the site — uploaded video OR Instagram embed ---------- */
+  const ICON_MUTED = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 9l5 6m0-6l-5 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>';
+  const ICON_SOUND = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.6a4.2 4.2 0 010 6.8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M18.7 6a7.2 7.2 0 010 12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>';
+
+  function setupVideoReel(reel, src) {
+    const cover = reel.querySelector(".reel__media img");
+    const v = document.createElement("video");
+    v.src = src; v.loop = true; v.muted = true; v.defaultMuted = true; v.playsInline = true;
+    v.setAttribute("muted", ""); v.setAttribute("playsinline", ""); v.setAttribute("webkit-playsinline", "");
+    v.setAttribute("preload", "metadata");
+    if (cover) v.poster = cover.getAttribute("src");
+    reel.appendChild(v);
+    reel.classList.add("is-playing");
+
+    // mute / unmute toggle
+    const mute = document.createElement("button");
+    mute.type = "button"; mute.className = "reel__mute is-muted"; mute.innerHTML = ICON_MUTED;
+    mute.setAttribute("aria-label", "Unmute");
+    reel.appendChild(mute);
+    function setMuted(state) {
+      v.muted = state;
+      mute.classList.toggle("is-muted", state);
+      mute.innerHTML = state ? ICON_MUTED : ICON_SOUND;
+      mute.setAttribute("aria-label", state ? "Unmute" : "Mute");
+    }
+    mute.addEventListener("click", (e) => { e.stopPropagation(); setMuted(!v.muted); if (v.paused) v.play().catch(function () {}); });
+    // tapping the reel itself also toggles sound
+    reel.addEventListener("click", () => { setMuted(!v.muted); if (v.paused) v.play().catch(function () {}); });
+
+    if (reduceMotion) { v.controls = true; return; }
+    // autoplay (muted) only while the reel is in view; pause when it scrolls away
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver((ents) => {
+        ents.forEach((en) => { if (en.isIntersecting) v.play().catch(function () {}); else v.pause(); });
+      }, { threshold: 0.4 });
+      io.observe(reel);
+    } else { v.play().catch(function () {}); }
+  }
+
   document.querySelectorAll(".reel").forEach((reel) => {
+    const video = (reel.dataset.video || "").trim();
+    const insta = (reel.dataset.insta || "").trim();
+
+    // (A) uploaded / direct video — autoplays muted, with a mute toggle
+    if (video) { setupVideoReel(reel, video); return; }
+
+    // (B) Instagram link — click to load the embed in-place
     reel.addEventListener("click", () => {
       if (reel.classList.contains("is-playing")) return;
-      const video = (reel.dataset.video || "").trim();
-      const insta = (reel.dataset.insta || "").trim();
-
-      // (A) uploaded / direct video file takes priority
-      if (video) {
-        const v = document.createElement("video");
-        v.src = video;
-        v.controls = true; v.loop = true; v.autoplay = true; v.playsInline = true;
-        v.setAttribute("playsinline", ""); v.setAttribute("webkit-playsinline", "");
-        reel.appendChild(v);
-        reel.classList.add("is-playing");
-        v.play().catch(function () {});
-        return;
-      }
-
-      // (B) Instagram link — accepts a full URL or just the shortcode
       if (insta) {
         const m = insta.match(/instagram\.com\/(reel|reels|p|tv)\/([^\/?#]+)/i);
         const type = m ? (m[1] === "reels" ? "reel" : m[1]) : "reel";
@@ -303,7 +332,6 @@
         reel.classList.add("is-playing");
         return;
       }
-
       alert("Add your reel to this card in index.html:\n• Upload an .mp4 to assets/videos/ and set data-video=\"assets/videos/yourreel.mp4\", OR\n• Paste an Instagram link into data-insta.");
     });
   });
@@ -371,7 +399,8 @@
     }
     const open = () => { pop.hidden = false; render(); };
     const close = () => { pop.hidden = true; };
-    input.addEventListener("click", () => (pop.hidden ? open() : close()));
+    // open on click/focus; close only via outside-click or Done (avoids focus+click closing it instantly)
+    input.addEventListener("click", open);
     input.addEventListener("focus", open);
     pop.querySelector("[data-dp-prev]").addEventListener("click", () => { view.setMonth(view.getMonth() - 1); render(); });
     pop.querySelector("[data-dp-next]").addEventListener("click", () => { view.setMonth(view.getMonth() + 1); render(); });
@@ -380,11 +409,16 @@
     document.addEventListener("click", (e) => { if (!pop.hidden && !pop.contains(e.target) && e.target !== input) close(); });
   })();
 
-  /* ---------- "Enquire" on a collection pre-selects that package ---------- */
+  /* ---------- Package select: grey when empty (matches input placeholders) + pre-fill from cards ---------- */
   const pkgSelect = document.getElementById("package");
-  document.querySelectorAll("[data-package]").forEach((el) => {
-    el.addEventListener("click", () => { if (pkgSelect) pkgSelect.value = el.dataset.package; });
-  });
+  if (pkgSelect) {
+    const syncPkg = () => pkgSelect.classList.toggle("is-empty", pkgSelect.value === "");
+    syncPkg();
+    pkgSelect.addEventListener("change", syncPkg);
+    document.querySelectorAll("[data-package]").forEach((el) => {
+      el.addEventListener("click", () => { pkgSelect.value = el.dataset.package; syncPkg(); });
+    });
+  }
 
   /* ---------- Enquiry form ---------- */
   const form = document.getElementById("enquiryForm");
