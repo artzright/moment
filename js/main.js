@@ -271,7 +271,12 @@
       const url = film.dataset.video;
       if (!url) { alert("Add your film's embed URL to the data-video attribute in index.html."); return; }
       const thumb = film.querySelector(".film__thumb");
-      thumb.innerHTML = '<iframe src="' + url + '?autoplay=1" allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe>';
+      const ifr = document.createElement("iframe");
+      ifr.src = url + (url.indexOf("?") > -1 ? "&" : "?") + "autoplay=1";
+      ifr.setAttribute("allow", "autoplay; fullscreen; encrypted-media");
+      ifr.setAttribute("allowfullscreen", "");
+      thumb.textContent = "";
+      thumb.appendChild(ifr);
     });
   });
 
@@ -444,7 +449,7 @@
       "\n\nMessage: " + (data.get("message") || "—");
     const url = "https://wa.me/917991807672?text=" + encodeURIComponent(text);
     const win = window.open(url, "_blank");
-    if (!win) window.location.href = url; // fallback if popup blocked
+    if (win) { win.opener = null; } else { window.location.href = url; } // sever opener + fallback
     note.hidden = false;
     note.textContent = "Thank you! WhatsApp is opening with your enquiry — just hit send. 💬";
     form.reset();
