@@ -432,21 +432,21 @@
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     if (!form.checkValidity()) { form.reportValidity(); return; }
-    // Opens the visitor's email app pre-filled. SWAP for Formspree/backend to collect automatically.
+    // Sends the enquiry to Moments' WhatsApp with everything pre-filled — visitor just taps Send.
     const data = new FormData(form);
-    const body = encodeURIComponent(
-      "Names: " + data.get("name") +
-      "\nEmail: " + data.get("email") +
+    const text =
+      "New Wedding Enquiry — Moments\n\n" +
+      "Names: " + (data.get("name") || "") +
+      "\nEmail: " + (data.get("email") || "") +
       "\nPackage: " + (data.get("package") || "Not sure yet") +
       "\nDate(s): " + (data.get("date") || "Not specified") +
       "\nVenue: " + (data.get("venue") || "Not specified") +
-      "\n\n" + (data.get("message") || "")
-    );
-    window.location.href =
-      "mailto:moments.artzright@gmail.com?subject=" +
-      encodeURIComponent("Wedding Enquiry — " + data.get("name")) + "&body=" + body;
+      "\n\nMessage: " + (data.get("message") || "—");
+    const url = "https://wa.me/917991807672?text=" + encodeURIComponent(text);
+    const win = window.open(url, "_blank");
+    if (!win) window.location.href = url; // fallback if popup blocked
     note.hidden = false;
-    note.textContent = "Thank you! Your email app should open — or reach us on WhatsApp.";
+    note.textContent = "Thank you! WhatsApp is opening with your enquiry — just hit send. 💬";
     form.reset();
   });
 
