@@ -269,24 +269,42 @@
     });
   });
 
-  /* ---------- Reels: embed Instagram reel in-place (plays inside the site) ---------- */
+  /* ---------- Reels: play inside the site — uploaded video OR Instagram embed ---------- */
   document.querySelectorAll(".reel").forEach((reel) => {
     reel.addEventListener("click", () => {
       if (reel.classList.contains("is-playing")) return;
-      const raw = (reel.dataset.insta || "").trim();
-      if (!raw) { alert("Paste your Instagram reel link into the data-insta=\"\" attribute on this card in index.html."); return; }
-      // accept a full URL (…/reel/CODE/, /p/CODE/, /tv/CODE/) or just the shortcode
-      const m = raw.match(/instagram\.com\/(reel|reels|p|tv)\/([^\/?#]+)/i);
-      const type = m ? (m[1] === "reels" ? "reel" : m[1]) : "reel";
-      const code = m ? m[2] : raw;
-      const iframe = document.createElement("iframe");
-      iframe.src = "https://www.instagram.com/" + type + "/" + code + "/embed";
-      iframe.setAttribute("allow", "autoplay; encrypted-media; clipboard-write; picture-in-picture");
-      iframe.setAttribute("allowfullscreen", "");
-      iframe.setAttribute("scrolling", "no");
-      iframe.loading = "lazy";
-      reel.appendChild(iframe);
-      reel.classList.add("is-playing");
+      const video = (reel.dataset.video || "").trim();
+      const insta = (reel.dataset.insta || "").trim();
+
+      // (A) uploaded / direct video file takes priority
+      if (video) {
+        const v = document.createElement("video");
+        v.src = video;
+        v.controls = true; v.loop = true; v.autoplay = true; v.playsInline = true;
+        v.setAttribute("playsinline", ""); v.setAttribute("webkit-playsinline", "");
+        reel.appendChild(v);
+        reel.classList.add("is-playing");
+        v.play().catch(function () {});
+        return;
+      }
+
+      // (B) Instagram link — accepts a full URL or just the shortcode
+      if (insta) {
+        const m = insta.match(/instagram\.com\/(reel|reels|p|tv)\/([^\/?#]+)/i);
+        const type = m ? (m[1] === "reels" ? "reel" : m[1]) : "reel";
+        const code = m ? m[2] : insta;
+        const iframe = document.createElement("iframe");
+        iframe.src = "https://www.instagram.com/" + type + "/" + code + "/embed";
+        iframe.setAttribute("allow", "autoplay; encrypted-media; clipboard-write; picture-in-picture");
+        iframe.setAttribute("allowfullscreen", "");
+        iframe.setAttribute("scrolling", "no");
+        iframe.loading = "lazy";
+        reel.appendChild(iframe);
+        reel.classList.add("is-playing");
+        return;
+      }
+
+      alert("Add your reel to this card in index.html:\n• Upload an .mp4 to assets/videos/ and set data-video=\"assets/videos/yourreel.mp4\", OR\n• Paste an Instagram link into data-insta.");
     });
   });
 
