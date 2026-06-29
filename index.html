@@ -67,8 +67,11 @@
   <!-- ===================== HERO ===================== -->
   <section class="hero" id="hero">
     <div class="hero__media" data-parallax="0.18">
-      <!-- SWAP: replace with your best full-bleed wedding image -->
-      <img src="assets/images/hero.jpg" alt="Indian wedding ceremony" loading="eager" />
+      <!-- Hero background. Drop your film at assets/videos/hero.mp4 and it autoplays (muted, looping).
+           Until the video exists (or if it can't load), the poster image assets/images/hero.jpg shows. -->
+      <video class="hero__bg" autoplay muted loop playsinline poster="assets/images/hero.jpg">
+        <source src="assets/videos/hero.mp4" type="video/mp4" />
+      </video>
       <div class="hero__overlay"></div>
     </div>
     <div class="hero__content">

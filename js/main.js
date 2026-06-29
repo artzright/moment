@@ -6,6 +6,12 @@
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* ---------- Hero background video: don't autoplay under reduced-motion (poster shows) ---------- */
+  (function () {
+    const hv = document.querySelector(".hero__bg");
+    if (hv && reduceMotion) { hv.removeAttribute("autoplay"); hv.pause(); }
+  })();
+
   /* ---------- Preloader ---------- */
   const loader = document.getElementById("loader");
   const loaderCount = document.getElementById("loaderCount");

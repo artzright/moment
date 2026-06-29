@@ -140,7 +140,8 @@ a { color: inherit; text-decoration: none; }
    ============================================================ */
 .hero { position: relative; height: 100vh; min-height: 620px; display: flex; align-items: center; justify-content: center; text-align: center; color: #fff; overflow: hidden; }
 .hero__media { position: absolute; inset: -8% 0; z-index: -1; will-change: transform; }
-.hero__media img { animation: heroZoom 16s var(--ease) forwards; }
+.hero__bg { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero__media img, .hero__media video { animation: heroZoom 16s var(--ease) forwards; }
 @keyframes heroZoom { from { transform: scale(1.12); } to { transform: scale(1); } }
 .hero__overlay { position: absolute; inset: 0; background: radial-gradient(120% 90% at 50% 30%, rgba(6,28,51,.15), transparent 60%), linear-gradient(180deg, rgba(6,28,51,.45) 0%, rgba(6,28,51,.15) 40%, rgba(6,28,51,.65) 100%); }
 .hero__content { max-width: 900px; padding: 0 1.5rem; }
