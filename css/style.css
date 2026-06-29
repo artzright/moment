@@ -10,8 +10,8 @@
 @font-face { font-family: 'Antura Script'; src: url('../assets/fonts/antura_script.woff') format('woff'); font-weight: 400; font-display: swap; }
 
 :root {
-  --ink:        #13181b;
-  --ink-soft:   #5a6066;
+  --ink:        #1b1311;   /* warm near-black (was a slightly cool charcoal) */
+  --ink-soft:   #6a5c5a;   /* warm grey for secondary text (was cool grey) */
   --maroon:     #2d0b0b;
   --paper:      #f6f1ea;
   --line:       #e6e4dd;
@@ -405,7 +405,7 @@ section { padding: 7.5rem 2.2rem; position: relative; }
 .datepicker__done { background: var(--maroon); color: #fff; border-color: var(--maroon); }
 
 /* ---------- Footer ---------- */
-.footer { background: var(--ink); color: #fff; text-align: center; padding: 4.5rem 2rem; }
+.footer { background: var(--maroon); color: #fff; text-align: center; padding: 4.5rem 2rem; }
 .footer__inner { max-width: var(--max); margin: 0 auto; }
 .brand--footer { display: inline-flex; flex-direction: column; align-items: center; gap: .6rem; color: #fff; }
 .brand--footer .brand__mark { width: 58px; height: 58px; }
