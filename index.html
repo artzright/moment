@@ -121,20 +121,25 @@
       <button class="filters__btn" data-filter="portrait">Portraits</button>
     </div>
 
-    <!-- SWAP: replace each picsum URL with your photo. Keep data-cat for filtering. -->
-    <div class="gallery" id="gallery">
-      <figure class="gallery__item" data-cat="wedding"><img src="https://picsum.photos/id/1062/800/1100" alt="Wedding ceremony" loading="lazy" /><figcaption>The Pheras</figcaption></figure>
-      <figure class="gallery__item" data-cat="pre"><img src="https://picsum.photos/id/1015/1100/800" alt="Pre-wedding" loading="lazy" /><figcaption>Pre-Wedding</figcaption></figure>
-      <figure class="gallery__item" data-cat="haldi"><img src="https://picsum.photos/id/1080/800/800" alt="Haldi" loading="lazy" /><figcaption>Haldi Morning</figcaption></figure>
-      <figure class="gallery__item" data-cat="portrait"><img src="https://picsum.photos/id/342/800/1100" alt="Bridal portrait" loading="lazy" /><figcaption>Bridal Portrait</figcaption></figure>
-      <figure class="gallery__item" data-cat="sangeet"><img src="https://picsum.photos/id/1042/1100/800" alt="Sangeet" loading="lazy" /><figcaption>Sangeet Nights</figcaption></figure>
-      <figure class="gallery__item" data-cat="wedding"><img src="https://picsum.photos/id/177/800/800" alt="Baraat" loading="lazy" /><figcaption>The Baraat</figcaption></figure>
-      <figure class="gallery__item" data-cat="portrait"><img src="https://picsum.photos/id/64/800/1100" alt="Groom portrait" loading="lazy" /><figcaption>The Groom</figcaption></figure>
-      <figure class="gallery__item" data-cat="pre"><img src="https://picsum.photos/id/1011/800/800" alt="Couple" loading="lazy" /><figcaption>Together</figcaption></figure>
-      <figure class="gallery__item" data-cat="haldi"><img src="https://picsum.photos/id/1027/800/1100" alt="Mehndi" loading="lazy" /><figcaption>Mehndi Details</figcaption></figure>
-      <figure class="gallery__item" data-cat="wedding"><img src="https://picsum.photos/id/1059/1100/800" alt="Reception" loading="lazy" /><figcaption>The Reception</figcaption></figure>
-      <figure class="gallery__item" data-cat="sangeet"><img src="https://picsum.photos/id/823/800/800" alt="Dance" loading="lazy" /><figcaption>First Dance</figcaption></figure>
-      <figure class="gallery__item" data-cat="portrait"><img src="https://picsum.photos/id/338/800/1100" alt="Detail" loading="lazy" /><figcaption>The Details</figcaption></figure>
+    <!-- Swipeable card carousel. SWAP each picsum URL with your photo; keep data-cat for filtering. -->
+    <div class="carousel reveal" data-carousel>
+      <div class="gallery carousel__track" id="gallery">
+        <figure class="gallery__item" data-cat="wedding"><img src="https://picsum.photos/id/1062/800/1100" alt="Wedding ceremony" loading="lazy" /><figcaption>The Pheras</figcaption></figure>
+        <figure class="gallery__item" data-cat="pre"><img src="https://picsum.photos/id/1015/1100/800" alt="Pre-wedding" loading="lazy" /><figcaption>Pre-Wedding</figcaption></figure>
+        <figure class="gallery__item" data-cat="haldi"><img src="https://picsum.photos/id/1080/800/800" alt="Haldi" loading="lazy" /><figcaption>Haldi Morning</figcaption></figure>
+        <figure class="gallery__item" data-cat="portrait"><img src="https://picsum.photos/id/342/800/1100" alt="Bridal portrait" loading="lazy" /><figcaption>Bridal Portrait</figcaption></figure>
+        <figure class="gallery__item" data-cat="sangeet"><img src="https://picsum.photos/id/1042/1100/800" alt="Sangeet" loading="lazy" /><figcaption>Sangeet Nights</figcaption></figure>
+        <figure class="gallery__item" data-cat="wedding"><img src="https://picsum.photos/id/177/800/800" alt="Baraat" loading="lazy" /><figcaption>The Baraat</figcaption></figure>
+        <figure class="gallery__item" data-cat="portrait"><img src="https://picsum.photos/id/64/800/1100" alt="Groom portrait" loading="lazy" /><figcaption>The Groom</figcaption></figure>
+        <figure class="gallery__item" data-cat="pre"><img src="https://picsum.photos/id/1011/800/800" alt="Couple" loading="lazy" /><figcaption>Together</figcaption></figure>
+        <figure class="gallery__item" data-cat="haldi"><img src="https://picsum.photos/id/1027/800/1100" alt="Mehndi" loading="lazy" /><figcaption>Mehndi Details</figcaption></figure>
+        <figure class="gallery__item" data-cat="wedding"><img src="https://picsum.photos/id/1059/1100/800" alt="Reception" loading="lazy" /><figcaption>The Reception</figcaption></figure>
+        <figure class="gallery__item" data-cat="sangeet"><img src="https://picsum.photos/id/823/800/800" alt="Dance" loading="lazy" /><figcaption>First Dance</figcaption></figure>
+        <figure class="gallery__item" data-cat="portrait"><img src="https://picsum.photos/id/338/800/1100" alt="Detail" loading="lazy" /><figcaption>The Details</figcaption></figure>
+      </div>
+      <button class="carousel__arrow carousel__arrow--prev" aria-label="Previous">&#8249;</button>
+      <button class="carousel__arrow carousel__arrow--next" aria-label="Next">&#8250;</button>
+      <div class="carousel__progress"><span></span></div>
     </div>
   </section>
 
@@ -145,43 +150,48 @@
       <h2 class="section-head__title">Wedding Films</h2>
     </div>
 
-    <div class="films__grid">
-      <!-- SWAP: set data-video to your YouTube/Vimeo embed URL; thumbnail is the img -->
-      <article class="film reveal" data-video="">
-        <div class="film__thumb">
-          <img src="https://picsum.photos/id/1043/1280/720" alt="Wedding film" loading="lazy" />
-          <button class="film__play" aria-label="Play film"></button>
-          <span class="film__dur">3:42</span>
-        </div>
-        <div class="film__meta">
-          <h3>Aarav &amp; Meera</h3>
-          <p>A Rajasthan palace wedding</p>
-        </div>
-      </article>
+    <!-- Swipeable card carousel. SWAP: set data-video to your YouTube/Vimeo embed URL; thumbnail is the img -->
+    <div class="carousel carousel--light reveal" data-carousel>
+      <div class="films__grid carousel__track">
+        <article class="film" data-video="">
+          <div class="film__thumb">
+            <img src="https://picsum.photos/id/1043/1280/720" alt="Wedding film" loading="lazy" />
+            <button class="film__play" aria-label="Play film"></button>
+            <span class="film__dur">3:42</span>
+          </div>
+          <div class="film__meta">
+            <h3>Aarav &amp; Meera</h3>
+            <p>A Rajasthan palace wedding</p>
+          </div>
+        </article>
 
-      <article class="film reveal" data-video="">
-        <div class="film__thumb">
-          <img src="https://picsum.photos/id/1039/1280/720" alt="Wedding film" loading="lazy" />
-          <button class="film__play" aria-label="Play film"></button>
-          <span class="film__dur">4:18</span>
-        </div>
-        <div class="film__meta">
-          <h3>Ishaan &amp; Priya</h3>
-          <p>Seaside vows in Goa</p>
-        </div>
-      </article>
+        <article class="film" data-video="">
+          <div class="film__thumb">
+            <img src="https://picsum.photos/id/1039/1280/720" alt="Wedding film" loading="lazy" />
+            <button class="film__play" aria-label="Play film"></button>
+            <span class="film__dur">4:18</span>
+          </div>
+          <div class="film__meta">
+            <h3>Ishaan &amp; Priya</h3>
+            <p>Seaside vows in Goa</p>
+          </div>
+        </article>
 
-      <article class="film reveal" data-video="">
-        <div class="film__thumb">
-          <img src="https://picsum.photos/id/1057/1280/720" alt="Wedding film" loading="lazy" />
-          <button class="film__play" aria-label="Play film"></button>
-          <span class="film__dur">2:55</span>
-        </div>
-        <div class="film__meta">
-          <h3>Kabir &amp; Anaya</h3>
-          <p>An intimate Delhi celebration</p>
-        </div>
-      </article>
+        <article class="film" data-video="">
+          <div class="film__thumb">
+            <img src="https://picsum.photos/id/1057/1280/720" alt="Wedding film" loading="lazy" />
+            <button class="film__play" aria-label="Play film"></button>
+            <span class="film__dur">2:55</span>
+          </div>
+          <div class="film__meta">
+            <h3>Kabir &amp; Anaya</h3>
+            <p>An intimate Delhi celebration</p>
+          </div>
+        </article>
+      </div>
+      <button class="carousel__arrow carousel__arrow--prev" aria-label="Previous">&#8249;</button>
+      <button class="carousel__arrow carousel__arrow--next" aria-label="Next">&#8250;</button>
+      <div class="carousel__progress"><span></span></div>
     </div>
   </section>
 
@@ -213,48 +223,54 @@
       <p class="section-head__note">Every wedding is unique — these are starting points. Tell us your dates and we'll craft a custom quote.</p>
     </div>
 
-    <div class="cards">
-      <article class="card reveal" data-tilt>
-        <h3 class="card__name">The Candid</h3>
-        <p class="card__price">from ₹1,20,000</p>
-        <p class="card__desc">Perfect for intimate celebrations &amp; single-day events.</p>
-        <ul class="card__list">
-          <li>1 lead photographer</li>
-          <li>Up to 10 hours coverage</li>
-          <li>300+ edited photographs</li>
-          <li>Online gallery</li>
-        </ul>
-        <a href="#contact" class="btn btn--ghost" data-magnetic>Enquire</a>
-      </article>
+    <!-- Swipeable card carousel -->
+    <div class="carousel reveal" data-carousel>
+      <div class="cards carousel__track">
+        <article class="card">
+          <h3 class="card__name">The Candid</h3>
+          <p class="card__price">from ₹1,20,000</p>
+          <p class="card__desc">Perfect for intimate celebrations &amp; single-day events.</p>
+          <ul class="card__list">
+            <li>1 lead photographer</li>
+            <li>Up to 10 hours coverage</li>
+            <li>300+ edited photographs</li>
+            <li>Online gallery</li>
+          </ul>
+          <a href="#contact" class="btn btn--ghost" data-magnetic>Enquire</a>
+        </article>
 
-      <article class="card card--featured reveal" data-tilt>
-        <span class="card__badge">Most Loved</span>
-        <h3 class="card__name">The Storyteller</h3>
-        <p class="card__price">from ₹2,75,000</p>
-        <p class="card__desc">Full photo + film coverage for the complete wedding.</p>
-        <ul class="card__list">
-          <li>2 photographers + 1 cinematographer</li>
-          <li>All events (haldi → reception)</li>
-          <li>600+ edited photographs</li>
-          <li>3–5 min cinematic film</li>
-          <li>Premium printed album</li>
-        </ul>
-        <a href="#contact" class="btn btn--solid" data-magnetic>Enquire</a>
-      </article>
+        <article class="card card--featured">
+          <span class="card__badge">Most Loved</span>
+          <h3 class="card__name">The Storyteller</h3>
+          <p class="card__price">from ₹2,75,000</p>
+          <p class="card__desc">Full photo + film coverage for the complete wedding.</p>
+          <ul class="card__list">
+            <li>2 photographers + 1 cinematographer</li>
+            <li>All events (haldi → reception)</li>
+            <li>600+ edited photographs</li>
+            <li>3–5 min cinematic film</li>
+            <li>Premium printed album</li>
+          </ul>
+          <a href="#contact" class="btn btn--solid" data-magnetic>Enquire</a>
+        </article>
 
-      <article class="card reveal" data-tilt>
-        <h3 class="card__name">The Heirloom</h3>
-        <p class="card__price">from ₹4,50,000</p>
-        <p class="card__desc">Destination &amp; multi-day weddings, fully documented.</p>
-        <ul class="card__list">
-          <li>Full team + drone &amp; second film unit</li>
-          <li>Unlimited events &amp; days</li>
-          <li>1000+ edited photographs</li>
-          <li>Feature film + teaser + reels</li>
-          <li>Twin albums &amp; framed prints</li>
-        </ul>
-        <a href="#contact" class="btn btn--ghost" data-magnetic>Enquire</a>
-      </article>
+        <article class="card">
+          <h3 class="card__name">The Heirloom</h3>
+          <p class="card__price">from ₹4,50,000</p>
+          <p class="card__desc">Destination &amp; multi-day weddings, fully documented.</p>
+          <ul class="card__list">
+            <li>Full team + drone &amp; second film unit</li>
+            <li>Unlimited events &amp; days</li>
+            <li>1000+ edited photographs</li>
+            <li>Feature film + teaser + reels</li>
+            <li>Twin albums &amp; framed prints</li>
+          </ul>
+          <a href="#contact" class="btn btn--ghost" data-magnetic>Enquire</a>
+        </article>
+      </div>
+      <button class="carousel__arrow carousel__arrow--prev" aria-label="Previous">&#8249;</button>
+      <button class="carousel__arrow carousel__arrow--next" aria-label="Next">&#8250;</button>
+      <div class="carousel__progress"><span></span></div>
     </div>
   </section>
 

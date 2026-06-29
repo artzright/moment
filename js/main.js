@@ -74,22 +74,8 @@
       });
     }, { threshold: 0.12 });
     reveals.forEach((el) => io.observe(el));
-
-    // staggered gallery
-    const gio = new IntersectionObserver((entries) => {
-      entries.forEach((en) => {
-        if (en.isIntersecting) {
-          const idx = Array.prototype.indexOf.call(galleryItems, en.target);
-          en.target.style.transitionDelay = (idx % 3) * 0.08 + "s";
-          en.target.classList.add("is-in");
-          gio.unobserve(en.target);
-        }
-      });
-    }, { threshold: 0.08 });
-    galleryItems.forEach((el) => gio.observe(el));
   } else {
     reveals.forEach((el) => el.classList.add("is-visible"));
-    galleryItems.forEach((el) => el.classList.add("is-in"));
   }
 
   /* ---------- Count-up stats ---------- */
@@ -159,7 +145,68 @@
     });
   }
 
+  /* ---------- Swipeable card carousels ---------- */
+  document.querySelectorAll("[data-carousel]").forEach((root) => {
+    const track = root.querySelector(".carousel__track");
+    if (!track) return;
+    const prev = root.querySelector(".carousel__arrow--prev");
+    const next = root.querySelector(".carousel__arrow--next");
+    const bar  = root.querySelector(".carousel__progress span");
+
+    const cards = () => Array.from(track.children).filter((c) => c.offsetParent !== null);
+
+    function step() {
+      const c = cards()[0];
+      const cs = getComputedStyle(track);
+      const gap = parseFloat(cs.columnGap || cs.gap) || 24;
+      return c ? c.getBoundingClientRect().width + gap : track.clientWidth * 0.8;
+    }
+    if (prev) prev.addEventListener("click", () => track.scrollBy({ left: -step(), behavior: "smooth" }));
+    if (next) next.addEventListener("click", () => track.scrollBy({ left:  step(), behavior: "smooth" }));
+
+    function update() {
+      const center = track.scrollLeft + track.clientWidth / 2;
+      let best = null, bestD = Infinity;
+      cards().forEach((c) => {
+        const cc = c.offsetLeft + c.offsetWidth / 2;
+        const d = Math.abs(cc - center);
+        if (d < bestD) { bestD = d; best = c; }
+        c.classList.remove("is-active");
+      });
+      if (best) best.classList.add("is-active");
+      const max = track.scrollWidth - track.clientWidth;
+      if (bar) bar.style.transform = "scaleX(" + (max > 0 ? Math.min(track.scrollLeft / max, 1) : 0) + ")";
+      if (prev) prev.classList.toggle("is-disabled", track.scrollLeft <= 2);
+      if (next) next.classList.toggle("is-disabled", track.scrollLeft >= max - 2);
+    }
+    let raf = null;
+    track.addEventListener("scroll", () => { if (raf) return; raf = requestAnimationFrame(() => { raf = null; update(); }); }, { passive: true });
+    window.addEventListener("resize", update);
+
+    // drag-to-scroll for mouse/trackpad; touch devices use native swipe
+    let down = false, startX = 0, startScroll = 0, moved = 0;
+    track.addEventListener("pointerdown", (e) => {
+      if (e.pointerType === "touch") return;
+      down = true; startX = e.clientX; startScroll = track.scrollLeft; moved = 0;
+      track.classList.add("is-grabbing");
+    });
+    window.addEventListener("pointermove", (e) => {
+      if (!down) return;
+      const dx = e.clientX - startX;
+      if (Math.abs(dx) > moved) moved = Math.abs(dx);
+      track.scrollLeft = startScroll - dx;
+    });
+    window.addEventListener("pointerup", () => { if (down) { down = false; track.classList.remove("is-grabbing"); update(); } });
+    // a real drag shouldn't trigger the card's click (e.g. open the lightbox)
+    track.addEventListener("click", (e) => { if (moved > 6) { e.preventDefault(); e.stopPropagation(); moved = 0; } }, true);
+
+    track.__carousel = { update };
+    requestAnimationFrame(update);
+    window.addEventListener("load", update);
+  });
+
   /* ---------- Gallery filters ---------- */
+  const galleryTrack = document.getElementById("gallery");
   const filterBtns = document.querySelectorAll(".filters__btn");
   filterBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -170,6 +217,10 @@
         const show = f === "all" || it.dataset.cat === f;
         it.classList.toggle("is-hidden", !show);
       });
+      if (galleryTrack) {
+        galleryTrack.scrollTo({ left: 0, behavior: "smooth" });
+        if (galleryTrack.__carousel) requestAnimationFrame(galleryTrack.__carousel.update);
+      }
     });
   });
 
