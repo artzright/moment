@@ -331,23 +331,79 @@
   function resetTimer() { clearInterval(timer); timer = setInterval(next, 6000); }
   if (testiItems.length > 1) resetTimer();
 
-  /* ---------- Enquiry form (front-end demo) ---------- */
+  /* ---------- Multi-date popup calendar ---------- */
+  (function () {
+    const input = document.getElementById("date");
+    const pop = document.getElementById("datepicker");
+    if (!input || !pop) return;
+    const monthEl = document.getElementById("dpMonth");
+    const grid = document.getElementById("dpGrid");
+    const selected = new Set();
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const view = new Date(today.getFullYear(), today.getMonth(), 1);
+    const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const WD = ["Su","Mo","Tu","We","Th","Fr","Sa"];
+
+    const iso = (d) => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    function label(key) { const p = key.split("-"); const d = new Date(+p[0], +p[1] - 1, +p[2]); return d.getDate() + " " + MONTHS[d.getMonth()].slice(0, 3) + " " + d.getFullYear(); }
+    function sync() { input.value = Array.from(selected).sort().map(label).join(",  "); }
+
+    function render() {
+      monthEl.textContent = MONTHS[view.getMonth()] + " " + view.getFullYear();
+      grid.innerHTML = "";
+      WD.forEach((w) => { const e = document.createElement("span"); e.className = "datepicker__wd"; e.textContent = w; grid.appendChild(e); });
+      const startDow = new Date(view.getFullYear(), view.getMonth(), 1).getDay();
+      const days = new Date(view.getFullYear(), view.getMonth() + 1, 0).getDate();
+      for (let i = 0; i < startDow; i++) { const e = document.createElement("span"); e.className = "datepicker__day is-empty"; grid.appendChild(e); }
+      for (let d = 1; d <= days; d++) {
+        const date = new Date(view.getFullYear(), view.getMonth(), d);
+        const key = iso(date);
+        const btn = document.createElement("button");
+        btn.type = "button"; btn.className = "datepicker__day"; btn.textContent = d;
+        if (date < today) { btn.disabled = true; btn.classList.add("is-disabled"); }
+        if (selected.has(key)) btn.classList.add("is-sel");
+        btn.addEventListener("click", () => {
+          if (selected.has(key)) selected.delete(key); else selected.add(key);
+          btn.classList.toggle("is-sel"); sync();
+        });
+        grid.appendChild(btn);
+      }
+    }
+    const open = () => { pop.hidden = false; render(); };
+    const close = () => { pop.hidden = true; };
+    input.addEventListener("click", () => (pop.hidden ? open() : close()));
+    input.addEventListener("focus", open);
+    pop.querySelector("[data-dp-prev]").addEventListener("click", () => { view.setMonth(view.getMonth() - 1); render(); });
+    pop.querySelector("[data-dp-next]").addEventListener("click", () => { view.setMonth(view.getMonth() + 1); render(); });
+    document.getElementById("dpClear").addEventListener("click", () => { selected.clear(); sync(); render(); });
+    document.getElementById("dpDone").addEventListener("click", close);
+    document.addEventListener("click", (e) => { if (!pop.hidden && !pop.contains(e.target) && e.target !== input) close(); });
+  })();
+
+  /* ---------- "Enquire" on a collection pre-selects that package ---------- */
+  const pkgSelect = document.getElementById("package");
+  document.querySelectorAll("[data-package]").forEach((el) => {
+    el.addEventListener("click", () => { if (pkgSelect) pkgSelect.value = el.dataset.package; });
+  });
+
+  /* ---------- Enquiry form ---------- */
   const form = document.getElementById("enquiryForm");
   const note = document.getElementById("formNote");
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     if (!form.checkValidity()) { form.reportValidity(); return; }
-    // SWAP: wire this to your email service / Formspree / backend.
+    // Opens the visitor's email app pre-filled. SWAP for Formspree/backend to collect automatically.
     const data = new FormData(form);
     const body = encodeURIComponent(
       "Names: " + data.get("name") +
       "\nEmail: " + data.get("email") +
-      "\nDate(s): " + data.get("date") +
-      "\nVenue: " + data.get("venue") +
-      "\n\n" + data.get("message")
+      "\nPackage: " + (data.get("package") || "Not sure yet") +
+      "\nDate(s): " + (data.get("date") || "Not specified") +
+      "\nVenue: " + (data.get("venue") || "Not specified") +
+      "\n\n" + (data.get("message") || "")
     );
     window.location.href =
-      "mailto:hello@moments.studio?subject=" +
+      "mailto:moments.artzright@gmail.com?subject=" +
       encodeURIComponent("Wedding Enquiry — " + data.get("name")) + "&body=" + body;
     note.hidden = false;
     note.textContent = "Thank you! Your email app should open — or reach us on WhatsApp.";

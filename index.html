@@ -204,11 +204,13 @@
       <p class="section-head__note">Tap a reel to play it right here — it opens inside the site, you never leave the page.</p>
     </div>
 
-    <!-- Swipeable vertical reels. SWAP: paste your Instagram reel link into data-insta="" on each card
-         (e.g. data-insta="https://www.instagram.com/reel/Cxxxxxx/"). Replace the cover image too. -->
+    <!-- Swipeable vertical reels. For EACH card pick ONE of two ways (upload wins if both are set):
+         (A) Upload a video: put an .mp4 in assets/videos/ then set data-video="assets/videos/yourreel.mp4"
+         (B) Instagram link: set data-insta="https://www.instagram.com/reel/Cxxxxxx/"
+         Also replace the cover <img> so the right thumbnail shows before play. -->
     <div class="carousel reveal" data-carousel>
       <div class="reels__track carousel__track">
-        <article class="reel" data-insta="">
+        <article class="reel" data-video="" data-insta="">
           <div class="reel__media">
             <img src="https://picsum.photos/id/1066/600/1067" alt="Wedding reel" loading="lazy" />
             <span class="reel__tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.2" fill="currentColor" stroke="none"/></svg>Reel</span>
@@ -216,7 +218,7 @@
           </div>
         </article>
 
-        <article class="reel" data-insta="">
+        <article class="reel" data-video="" data-insta="">
           <div class="reel__media">
             <img src="https://picsum.photos/id/1080/600/1067" alt="Wedding reel" loading="lazy" />
             <span class="reel__tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.2" fill="currentColor" stroke="none"/></svg>Reel</span>
@@ -224,7 +226,7 @@
           </div>
         </article>
 
-        <article class="reel" data-insta="">
+        <article class="reel" data-video="" data-insta="">
           <div class="reel__media">
             <img src="https://picsum.photos/id/1027/600/1067" alt="Wedding reel" loading="lazy" />
             <span class="reel__tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.2" fill="currentColor" stroke="none"/></svg>Reel</span>
@@ -232,7 +234,7 @@
           </div>
         </article>
 
-        <article class="reel" data-insta="">
+        <article class="reel" data-video="" data-insta="">
           <div class="reel__media">
             <img src="https://picsum.photos/id/342/600/1067" alt="Wedding reel" loading="lazy" />
             <span class="reel__tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.2" fill="currentColor" stroke="none"/></svg>Reel</span>
@@ -240,7 +242,7 @@
           </div>
         </article>
 
-        <article class="reel" data-insta="">
+        <article class="reel" data-video="" data-insta="">
           <div class="reel__media">
             <img src="https://picsum.photos/id/823/600/1067" alt="Wedding reel" loading="lazy" />
             <span class="reel__tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.2" fill="currentColor" stroke="none"/></svg>Reel</span>
@@ -295,7 +297,7 @@
             <li>300+ edited photographs</li>
             <li>Online gallery</li>
           </ul>
-          <a href="#contact" class="btn btn--ghost" data-magnetic>Enquire</a>
+          <a href="#contact" class="btn btn--ghost" data-magnetic data-package="The Candid">Enquire</a>
         </article>
 
         <article class="card card--featured">
@@ -310,7 +312,7 @@
             <li>3–5 min cinematic film</li>
             <li>Premium printed album</li>
           </ul>
-          <a href="#contact" class="btn btn--solid" data-magnetic>Enquire</a>
+          <a href="#contact" class="btn btn--solid" data-magnetic data-package="The Storyteller">Enquire</a>
         </article>
 
         <article class="card">
@@ -324,7 +326,7 @@
             <li>Feature film + teaser + reels</li>
             <li>Twin albums &amp; framed prints</li>
           </ul>
-          <a href="#contact" class="btn btn--ghost" data-magnetic>Enquire</a>
+          <a href="#contact" class="btn btn--ghost" data-magnetic data-package="The Heirloom">Enquire</a>
         </article>
       </div>
       <button class="carousel__arrow carousel__arrow--prev" aria-label="Previous">&#8249;</button>
@@ -362,9 +364,10 @@
       <h2 class="contact__title">Let's tell your story.</h2>
       <p>We take on a limited number of weddings each season to give every couple our full heart. Share your details and we'll reply within 24 hours.</p>
       <ul class="contact__links">
-        <li><a href="mailto:hello@moments.studio">hello@moments.studio</a></li>
-        <li><a href="https://wa.me/919999999999" target="_blank" rel="noopener">WhatsApp: +91 99999 99999</a></li>
-        <li><a href="https://instagram.com" target="_blank" rel="noopener">@moments.weddings</a></li>
+        <li><a href="mailto:moments.artzright@gmail.com">moments.artzright@gmail.com</a></li>
+        <li><a href="https://wa.me/917991807672" target="_blank" rel="noopener">WhatsApp: +91 79918 07672</a></li>
+        <li><a href="tel:+917991807672">Call: +91 79918 07672</a></li>
+        <li><a href="https://instagram.com/moments.artzright" target="_blank" rel="noopener">@moments.artzright</a></li>
       </ul>
     </div>
 
@@ -377,11 +380,32 @@
         <label for="email">Email</label>
         <input type="email" id="email" name="email" placeholder="you@email.com" required />
       </div>
-      <div class="field">
+      <div class="field field--date">
         <label for="date">Wedding Date(s)</label>
-        <input type="text" id="date" name="date" placeholder="e.g. 14–16 Nov 2026" />
+        <input type="text" id="date" name="date" placeholder="Tap to pick your date(s)" readonly />
+        <div class="datepicker" id="datepicker" hidden>
+          <div class="datepicker__head">
+            <button type="button" class="datepicker__nav" data-dp-prev aria-label="Previous month">&#8249;</button>
+            <span class="datepicker__month" id="dpMonth"></span>
+            <button type="button" class="datepicker__nav" data-dp-next aria-label="Next month">&#8250;</button>
+          </div>
+          <div class="datepicker__grid" id="dpGrid"></div>
+          <div class="datepicker__foot">
+            <button type="button" class="datepicker__clear" id="dpClear">Clear</button>
+            <button type="button" class="datepicker__done" id="dpDone">Done</button>
+          </div>
+        </div>
       </div>
       <div class="field">
+        <label for="package">Package You'd Like</label>
+        <select id="package" name="package">
+          <option value="">Not sure yet — help me choose</option>
+          <option value="The Candid">The Candid</option>
+          <option value="The Storyteller">The Storyteller</option>
+          <option value="The Heirloom">The Heirloom</option>
+        </select>
+      </div>
+      <div class="field field--full">
         <label for="venue">City / Venue</label>
         <input type="text" id="venue" name="venue" placeholder="Where's the celebration?" />
       </div>
