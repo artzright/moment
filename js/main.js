@@ -269,6 +269,27 @@
     });
   });
 
+  /* ---------- Reels: embed Instagram reel in-place (plays inside the site) ---------- */
+  document.querySelectorAll(".reel").forEach((reel) => {
+    reel.addEventListener("click", () => {
+      if (reel.classList.contains("is-playing")) return;
+      const raw = (reel.dataset.insta || "").trim();
+      if (!raw) { alert("Paste your Instagram reel link into the data-insta=\"\" attribute on this card in index.html."); return; }
+      // accept a full URL (…/reel/CODE/, /p/CODE/, /tv/CODE/) or just the shortcode
+      const m = raw.match(/instagram\.com\/(reel|reels|p|tv)\/([^\/?#]+)/i);
+      const type = m ? (m[1] === "reels" ? "reel" : m[1]) : "reel";
+      const code = m ? m[2] : raw;
+      const iframe = document.createElement("iframe");
+      iframe.src = "https://www.instagram.com/" + type + "/" + code + "/embed";
+      iframe.setAttribute("allow", "autoplay; encrypted-media; clipboard-write; picture-in-picture");
+      iframe.setAttribute("allowfullscreen", "");
+      iframe.setAttribute("scrolling", "no");
+      iframe.loading = "lazy";
+      reel.appendChild(iframe);
+      reel.classList.add("is-playing");
+    });
+  });
+
   /* ---------- Testimonials slider ---------- */
   const testiItems = document.querySelectorAll(".testi__item");
   const dotsWrap = document.getElementById("testiDots");
