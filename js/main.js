@@ -211,23 +211,30 @@
     window.addEventListener("load", update);
   });
 
-  /* ---------- Gallery filters ---------- */
+  /* ---------- Gallery filters (delegated — survives dynamic re-render) ---------- */
   const galleryTrack = document.getElementById("gallery");
-  const filterBtns = document.querySelectorAll(".filters__btn");
-  filterBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      filterBtns.forEach((b) => b.classList.remove("is-active"));
-      btn.classList.add("is-active");
-      const f = btn.dataset.filter;
-      galleryItems.forEach((it) => {
-        const show = f === "all" || it.dataset.cat === f;
-        it.classList.toggle("is-hidden", !show);
-      });
-      if (galleryTrack) {
-        galleryTrack.scrollTo({ left: 0, behavior: "smooth" });
-        if (galleryTrack.__carousel) requestAnimationFrame(galleryTrack.__carousel.update);
-      }
+  const filtersEl = document.getElementById("filters");
+  function buildFilters(cats) {
+    if (!filtersEl) return;
+    let html = '<button class="filters__btn is-active" data-filter="all">All</button>';
+    cats.forEach((c) => { html += '<button class="filters__btn" data-filter="' + c.id + '">' + c.label + "</button>"; });
+    filtersEl.innerHTML = html;
+    filtersEl.style.display = cats.length ? "" : "none";
+  }
+  if (filtersEl) filtersEl.addEventListener("click", (e) => {
+    const btn = e.target.closest(".filters__btn");
+    if (!btn) return;
+    filtersEl.querySelectorAll(".filters__btn").forEach((b) => b.classList.remove("is-active"));
+    btn.classList.add("is-active");
+    const f = btn.dataset.filter;
+    document.querySelectorAll("#gallery .gallery__item").forEach((it) => {
+      const show = f === "all" || it.dataset.cat === f;
+      it.classList.toggle("is-hidden", !show);
     });
+    if (galleryTrack) {
+      galleryTrack.scrollTo({ left: 0, behavior: "smooth" });
+      if (galleryTrack.__carousel) requestAnimationFrame(galleryTrack.__carousel.update);
+    }
   });
 
   /* ---------- Album overlay + Lightbox (detailed per-card gallery) ---------- */
@@ -244,8 +251,9 @@
   const lbNext = document.getElementById("lbNext");
   let lbList = [], current = 0;
 
-  // a card's photos = its cover <img> first, then every <img> inside its <template>
+  // a card's photos: dynamic __photos (from manifest) OR cover <img> + <template> imgs
   function albumPhotos(fig) {
+    if (fig.__photos) return fig.__photos;
     const list = [];
     const cover = fig.querySelector(":scope > img");
     if (cover) list.push({ src: cover.getAttribute("src"), alt: cover.getAttribute("alt") || "" });
@@ -253,8 +261,9 @@
     if (tpl) tpl.content.querySelectorAll("img").forEach((im) => list.push({ src: im.getAttribute("src"), alt: im.getAttribute("alt") || "" }));
     return list;
   }
-  // "N Photos" badge on each card
-  galleryItems.forEach((fig) => { fig.dataset.photos = albumPhotos(fig).length; });
+  // "N Photos" badge on every current card
+  function setBadges() { document.querySelectorAll("#gallery .gallery__item").forEach((fig) => { fig.dataset.photos = albumPhotos(fig).length; }); }
+  setBadges();
 
   function openLb(list, index) {
     lbList = list;
@@ -289,7 +298,10 @@
     if (!lb.classList.contains("is-open")) document.body.style.overflow = "";
   }
 
-  galleryItems.forEach((fig) => { fig.addEventListener("click", () => openAlbum(fig)); });
+  if (galleryTrack) galleryTrack.addEventListener("click", (e) => {
+    const fig = e.target.closest(".gallery__item");
+    if (fig && galleryTrack.contains(fig)) openAlbum(fig);
+  });
   albumClose.addEventListener("click", closeAlbum);
   albumEl.addEventListener("click", (e) => { if (e.target === albumEl) closeAlbum(); });
 
@@ -306,6 +318,34 @@
       closeAlbum();
     }
   });
+
+  /* ---------- Auto-load galleries from data/gallery.json (drop-in folders) ---------- */
+  function renderGallery(albums) {
+    if (!galleryTrack) return;
+    galleryTrack.innerHTML = "";
+    const cats = [];
+    albums.forEach((a) => { if (a.category && !cats.some((c) => c.id === a.category)) cats.push({ id: a.category, label: a.categoryLabel || a.category }); });
+    buildFilters(cats);
+    albums.forEach((a) => {
+      const fig = document.createElement("figure");
+      fig.className = "gallery__item";
+      if (a.category) fig.dataset.cat = a.category;
+      fig.dataset.album = a.title || "Gallery";
+      fig.__photos = (a.photos || []).map((src, i) => ({ src: src, alt: (a.title || "Photo") + " — " + (i + 1) }));
+      const img = document.createElement("img");
+      img.src = a.cover || (a.photos && a.photos[0]) || ""; img.alt = a.title || ""; img.loading = "lazy";
+      const cap = document.createElement("figcaption");
+      cap.textContent = a.title || "Gallery";
+      fig.appendChild(img); fig.appendChild(cap);
+      galleryTrack.appendChild(fig);
+    });
+    setBadges();
+    if (galleryTrack.__carousel) requestAnimationFrame(galleryTrack.__carousel.update);
+  }
+  fetch("data/gallery.json", { cache: "no-store" })
+    .then((r) => (r.ok ? r.json() : null))
+    .then((d) => { if (d && d.albums && d.albums.length) renderGallery(d.albums); })
+    .catch(function () {});
 
   /* ---------- Films: click to load embed ---------- */
   document.querySelectorAll(".film").forEach((film) => {
