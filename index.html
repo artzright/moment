@@ -131,19 +131,119 @@
 
     <!-- Swipeable card carousel. SWAP each picsum URL with your photo; keep data-cat for filtering. -->
     <div class="carousel reveal" data-carousel>
+      <!-- Each card is an ALBUM. The <img> is the cover; the <template> holds the rest of that
+           album's photos. To add photos to an album, add more <img src="…"> lines inside its
+           <template>. Clicking the card opens the album; clicking a photo opens the fullscreen viewer. -->
       <div class="gallery carousel__track" id="gallery">
-        <figure class="gallery__item" data-cat="wedding"><img src="https://picsum.photos/id/1062/800/1100" alt="Wedding ceremony" loading="lazy" /><figcaption>The Pheras</figcaption></figure>
-        <figure class="gallery__item" data-cat="pre"><img src="https://picsum.photos/id/1015/1100/800" alt="Pre-wedding" loading="lazy" /><figcaption>Pre-Wedding</figcaption></figure>
-        <figure class="gallery__item" data-cat="haldi"><img src="https://picsum.photos/id/1080/800/800" alt="Haldi" loading="lazy" /><figcaption>Haldi Morning</figcaption></figure>
-        <figure class="gallery__item" data-cat="portrait"><img src="https://picsum.photos/id/342/800/1100" alt="Bridal portrait" loading="lazy" /><figcaption>Bridal Portrait</figcaption></figure>
-        <figure class="gallery__item" data-cat="sangeet"><img src="https://picsum.photos/id/1042/1100/800" alt="Sangeet" loading="lazy" /><figcaption>Sangeet Nights</figcaption></figure>
-        <figure class="gallery__item" data-cat="wedding"><img src="https://picsum.photos/id/177/800/800" alt="Baraat" loading="lazy" /><figcaption>The Baraat</figcaption></figure>
-        <figure class="gallery__item" data-cat="portrait"><img src="https://picsum.photos/id/64/800/1100" alt="Groom portrait" loading="lazy" /><figcaption>The Groom</figcaption></figure>
-        <figure class="gallery__item" data-cat="pre"><img src="https://picsum.photos/id/1011/800/800" alt="Couple" loading="lazy" /><figcaption>Together</figcaption></figure>
-        <figure class="gallery__item" data-cat="haldi"><img src="https://picsum.photos/id/1027/800/1100" alt="Mehndi" loading="lazy" /><figcaption>Mehndi Details</figcaption></figure>
-        <figure class="gallery__item" data-cat="wedding"><img src="https://picsum.photos/id/1059/1100/800" alt="Reception" loading="lazy" /><figcaption>The Reception</figcaption></figure>
-        <figure class="gallery__item" data-cat="sangeet"><img src="https://picsum.photos/id/823/800/800" alt="Dance" loading="lazy" /><figcaption>First Dance</figcaption></figure>
-        <figure class="gallery__item" data-cat="portrait"><img src="https://picsum.photos/id/338/800/1100" alt="Detail" loading="lazy" /><figcaption>The Details</figcaption></figure>
+        <figure class="gallery__item" data-cat="wedding" data-album="The Pheras">
+          <img src="https://picsum.photos/id/1062/800/1100" alt="The Pheras" loading="lazy" />
+          <figcaption>The Pheras</figcaption>
+          <template>
+            <img src="https://picsum.photos/id/201/900/1200" alt="The Pheras — 2" />
+            <img src="https://picsum.photos/id/202/1200/900" alt="The Pheras — 3" />
+            <img src="https://picsum.photos/id/203/900/1100" alt="The Pheras — 4" />
+            <img src="https://picsum.photos/id/204/1000/1000" alt="The Pheras — 5" />
+          </template>
+        </figure>
+        <figure class="gallery__item" data-cat="pre" data-album="Pre-Wedding">
+          <img src="https://picsum.photos/id/1015/1100/800" alt="Pre-Wedding" loading="lazy" />
+          <figcaption>Pre-Wedding</figcaption>
+          <template>
+            <img src="https://picsum.photos/id/210/1200/900" alt="Pre-Wedding — 2" />
+            <img src="https://picsum.photos/id/211/900/1200" alt="Pre-Wedding — 3" />
+            <img src="https://picsum.photos/id/212/1000/1000" alt="Pre-Wedding — 4" />
+          </template>
+        </figure>
+        <figure class="gallery__item" data-cat="haldi" data-album="Haldi Morning">
+          <img src="https://picsum.photos/id/1080/800/800" alt="Haldi Morning" loading="lazy" />
+          <figcaption>Haldi Morning</figcaption>
+          <template>
+            <img src="https://picsum.photos/id/220/900/1200" alt="Haldi — 2" />
+            <img src="https://picsum.photos/id/221/1200/900" alt="Haldi — 3" />
+            <img src="https://picsum.photos/id/222/900/1100" alt="Haldi — 4" />
+          </template>
+        </figure>
+        <figure class="gallery__item" data-cat="portrait" data-album="Bridal Portrait">
+          <img src="https://picsum.photos/id/342/800/1100" alt="Bridal Portrait" loading="lazy" />
+          <figcaption>Bridal Portrait</figcaption>
+          <template>
+            <img src="https://picsum.photos/id/230/900/1200" alt="Bridal — 2" />
+            <img src="https://picsum.photos/id/231/1000/1200" alt="Bridal — 3" />
+            <img src="https://picsum.photos/id/232/900/1100" alt="Bridal — 4" />
+          </template>
+        </figure>
+        <figure class="gallery__item" data-cat="sangeet" data-album="Sangeet Nights">
+          <img src="https://picsum.photos/id/1042/1100/800" alt="Sangeet Nights" loading="lazy" />
+          <figcaption>Sangeet Nights</figcaption>
+          <template>
+            <img src="https://picsum.photos/id/240/1200/900" alt="Sangeet — 2" />
+            <img src="https://picsum.photos/id/241/900/1200" alt="Sangeet — 3" />
+            <img src="https://picsum.photos/id/242/1000/1000" alt="Sangeet — 4" />
+          </template>
+        </figure>
+        <figure class="gallery__item" data-cat="wedding" data-album="The Baraat">
+          <img src="https://picsum.photos/id/177/800/800" alt="The Baraat" loading="lazy" />
+          <figcaption>The Baraat</figcaption>
+          <template>
+            <img src="https://picsum.photos/id/250/1200/900" alt="Baraat — 2" />
+            <img src="https://picsum.photos/id/251/900/1200" alt="Baraat — 3" />
+            <img src="https://picsum.photos/id/252/900/1100" alt="Baraat — 4" />
+          </template>
+        </figure>
+        <figure class="gallery__item" data-cat="portrait" data-album="The Groom">
+          <img src="https://picsum.photos/id/64/800/1100" alt="The Groom" loading="lazy" />
+          <figcaption>The Groom</figcaption>
+          <template>
+            <img src="https://picsum.photos/id/260/900/1200" alt="Groom — 2" />
+            <img src="https://picsum.photos/id/261/1000/1200" alt="Groom — 3" />
+            <img src="https://picsum.photos/id/262/900/1100" alt="Groom — 4" />
+          </template>
+        </figure>
+        <figure class="gallery__item" data-cat="pre" data-album="Together">
+          <img src="https://picsum.photos/id/1011/800/800" alt="Together" loading="lazy" />
+          <figcaption>Together</figcaption>
+          <template>
+            <img src="https://picsum.photos/id/270/1200/900" alt="Together — 2" />
+            <img src="https://picsum.photos/id/271/900/1200" alt="Together — 3" />
+            <img src="https://picsum.photos/id/272/1000/1000" alt="Together — 4" />
+          </template>
+        </figure>
+        <figure class="gallery__item" data-cat="haldi" data-album="Mehndi Details">
+          <img src="https://picsum.photos/id/1027/800/1100" alt="Mehndi Details" loading="lazy" />
+          <figcaption>Mehndi Details</figcaption>
+          <template>
+            <img src="https://picsum.photos/id/280/900/1200" alt="Mehndi — 2" />
+            <img src="https://picsum.photos/id/281/1200/900" alt="Mehndi — 3" />
+            <img src="https://picsum.photos/id/282/900/1100" alt="Mehndi — 4" />
+          </template>
+        </figure>
+        <figure class="gallery__item" data-cat="wedding" data-album="The Reception">
+          <img src="https://picsum.photos/id/1059/1100/800" alt="The Reception" loading="lazy" />
+          <figcaption>The Reception</figcaption>
+          <template>
+            <img src="https://picsum.photos/id/290/1200/900" alt="Reception — 2" />
+            <img src="https://picsum.photos/id/291/900/1200" alt="Reception — 3" />
+            <img src="https://picsum.photos/id/292/1000/1000" alt="Reception — 4" />
+          </template>
+        </figure>
+        <figure class="gallery__item" data-cat="sangeet" data-album="First Dance">
+          <img src="https://picsum.photos/id/823/800/800" alt="First Dance" loading="lazy" />
+          <figcaption>First Dance</figcaption>
+          <template>
+            <img src="https://picsum.photos/id/301/900/1200" alt="First Dance — 2" />
+            <img src="https://picsum.photos/id/302/1200/900" alt="First Dance — 3" />
+            <img src="https://picsum.photos/id/303/900/1100" alt="First Dance — 4" />
+          </template>
+        </figure>
+        <figure class="gallery__item" data-cat="portrait" data-album="The Details">
+          <img src="https://picsum.photos/id/338/800/1100" alt="The Details" loading="lazy" />
+          <figcaption>The Details</figcaption>
+          <template>
+            <img src="https://picsum.photos/id/310/900/1200" alt="Details — 2" />
+            <img src="https://picsum.photos/id/311/1000/1200" alt="Details — 3" />
+            <img src="https://picsum.photos/id/312/900/1100" alt="Details — 4" />
+          </template>
+        </figure>
       </div>
       <button class="carousel__arrow carousel__arrow--prev" aria-label="Previous">&#8249;</button>
       <button class="carousel__arrow carousel__arrow--next" aria-label="Next">&#8250;</button>
@@ -444,6 +544,17 @@
       <p class="footer__copy">© <span id="year"></span> Moments. Crafted with love in India.</p>
     </div>
   </footer>
+
+  <!-- ===================== ALBUM OVERLAY (detailed gallery per card) ===================== -->
+  <div class="album" id="album" aria-hidden="true">
+    <div class="album__panel">
+      <button class="album__close" id="albumClose" aria-label="Close album">&times;</button>
+      <p class="album__kicker">Gallery</p>
+      <h3 class="album__title" id="albumTitle"></h3>
+      <p class="album__count" id="albumCount"></p>
+      <div class="album__grid" id="albumGrid"></div>
+    </div>
+  </div>
 
   <!-- ===================== LIGHTBOX ===================== -->
   <div class="lightbox" id="lightbox" aria-hidden="true">

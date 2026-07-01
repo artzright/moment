@@ -254,13 +254,41 @@ section { padding: 7.5rem 2.2rem; position: relative; }
 .gallery__item img { transition: transform .8s var(--ease); }
 .gallery__item:hover img { transform: scale(1.06); }
 .gallery__item figcaption {
-  position: absolute; inset: 0; display: flex; align-items: flex-end; padding: 1.4rem;
-  font-family: var(--display); letter-spacing: .01em; font-size: 1.5rem; color: #fff;
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: .35rem; padding: 1.4rem;
+  font-family: var(--display); letter-spacing: .01em; font-size: 1.5rem; line-height: 1; color: #fff;
   background: linear-gradient(0deg, rgba(45,11,11,.62), transparent 55%);
   opacity: 0; transform: translateY(10px); transition: opacity .45s var(--ease), transform .45s var(--ease);
 }
+.gallery__item figcaption::after {
+  content: "View Gallery →"; font-family: var(--sans); font-weight: 500; font-size: .6rem;
+  letter-spacing: .2em; text-transform: uppercase; opacity: .9;
+}
 .gallery__item.is-active figcaption, .gallery__item:hover figcaption { opacity: 1; transform: none; }
 .gallery__item.is-hidden { display: none; }
+/* "N photos" album indicator on each card */
+.gallery__item::after {
+  content: attr(data-photos) " Photos"; position: absolute; top: 12px; right: 12px; z-index: 2;
+  font-family: var(--sans); font-weight: 500; font-size: .56rem; letter-spacing: .14em; text-transform: uppercase;
+  color: #fff; background: rgba(0,0,0,.42); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  padding: .42em .7em; border-radius: 100px; border: 1px solid rgba(255,255,255,.35);
+  opacity: 0; transform: translateY(-4px); transition: opacity .4s var(--ease), transform .4s var(--ease); pointer-events: none;
+}
+.gallery__item:hover::after, .gallery__item.is-active::after { opacity: 1; transform: none; }
+
+/* ---------- Album overlay (detailed per-card gallery) ---------- */
+.album { position: fixed; inset: 0; z-index: 210; background: rgba(20,6,6,.55); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; padding: 4vh 3vw; opacity: 0; visibility: hidden; transition: opacity .4s var(--ease), visibility .4s var(--ease); }
+.album.is-open { opacity: 1; visibility: visible; }
+.album__panel { position: relative; width: min(1100px, 96vw); max-height: 92vh; overflow-y: auto; background: var(--glass-strong); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-bd); border-radius: var(--radius-lg); box-shadow: var(--glass-shadow), var(--glass-hi); padding: 2.6rem clamp(1.2rem, 3vw, 2.4rem); transform: translateY(20px) scale(.98); transition: transform .5s var(--ease); }
+.album.is-open .album__panel { transform: none; }
+.album__close { position: absolute; top: .9rem; right: 1.1rem; background: none; border: 0; font-size: 2.2rem; line-height: 1; cursor: pointer; color: var(--ink); z-index: 3; }
+.album__kicker { font-family: var(--sans); font-weight: 600; font-size: .7rem; letter-spacing: .32em; text-transform: uppercase; color: var(--maroon); text-align: center; margin-bottom: .5rem; }
+.album__title { font-family: var(--display); font-weight: 400; font-size: clamp(1.9rem, 4vw, 2.9rem); text-align: center; margin-bottom: .5rem; }
+.album__count { font-family: var(--sans); font-weight: 500; font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-soft); text-align: center; margin-bottom: 1.8rem; }
+.album__grid { columns: 3; column-gap: .9rem; }
+.album__grid img { width: 100%; height: auto; display: block; margin-bottom: .9rem; border-radius: 12px; cursor: zoom-in; break-inside: avoid; background: rgba(0,0,0,.05); transition: transform .45s var(--ease), box-shadow .45s var(--ease); }
+.album__grid img:hover { transform: scale(1.02); box-shadow: var(--glass-shadow); }
+@media (max-width: 720px) { .album__grid { columns: 2; } }
+@media (max-width: 460px) { .album__grid { columns: 1; } }
 
 /* ---------- Films (dark glass cards) ---------- */
 .films { background: linear-gradient(180deg, rgba(45,11,11,.94), rgba(45,11,11,.97)); color: #fff; }
@@ -417,7 +445,7 @@ section { padding: 7.5rem 2.2rem; position: relative; }
 .footer__copy { font-size: .76rem; letter-spacing: .04em; opacity: .5; }
 
 /* ---------- Lightbox ---------- */
-.lightbox { position: fixed; inset: 0; z-index: 200; background: rgba(20,6,6,.84); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity .4s var(--ease), visibility .4s var(--ease); }
+.lightbox { position: fixed; inset: 0; z-index: 300; background: rgba(20,6,6,.84); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity .4s var(--ease), visibility .4s var(--ease); }
 .lightbox.is-open { opacity: 1; visibility: visible; }
 .lightbox__img { max-width: 86vw; max-height: 86vh; width: auto; height: auto; object-fit: contain; border-radius: 14px; box-shadow: 0 30px 80px rgba(0,0,0,.55); transform: scale(.96); transition: transform .4s var(--ease); }
 .lightbox.is-open .lightbox__img { transform: scale(1); }

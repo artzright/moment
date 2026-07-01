@@ -230,39 +230,81 @@
     });
   });
 
-  /* ---------- Lightbox ---------- */
+  /* ---------- Album overlay + Lightbox (detailed per-card gallery) ---------- */
+  const albumEl = document.getElementById("album");
+  const albumTitle = document.getElementById("albumTitle");
+  const albumCount = document.getElementById("albumCount");
+  const albumGrid = document.getElementById("albumGrid");
+  const albumClose = document.getElementById("albumClose");
+
   const lb = document.getElementById("lightbox");
   const lbImg = document.getElementById("lbImg");
   const lbClose = document.getElementById("lbClose");
   const lbPrev = document.getElementById("lbPrev");
   const lbNext = document.getElementById("lbNext");
-  let current = 0;
-  const visibleItems = () => Array.from(galleryItems).filter((it) => !it.classList.contains("is-hidden"));
+  let lbList = [], current = 0;
 
-  function openLb(index) {
-    const list = visibleItems();
+  // a card's photos = its cover <img> first, then every <img> inside its <template>
+  function albumPhotos(fig) {
+    const list = [];
+    const cover = fig.querySelector(":scope > img");
+    if (cover) list.push({ src: cover.getAttribute("src"), alt: cover.getAttribute("alt") || "" });
+    const tpl = fig.querySelector(":scope > template");
+    if (tpl) tpl.content.querySelectorAll("img").forEach((im) => list.push({ src: im.getAttribute("src"), alt: im.getAttribute("alt") || "" }));
+    return list;
+  }
+  // "N Photos" badge on each card
+  galleryItems.forEach((fig) => { fig.dataset.photos = albumPhotos(fig).length; });
+
+  function openLb(list, index) {
+    lbList = list;
     current = (index + list.length) % list.length;
-    const img = list[current].querySelector("img");
-    lbImg.src = img.src; lbImg.alt = img.alt;
+    lbImg.src = list[current].src; lbImg.alt = list[current].alt;
     lb.classList.add("is-open"); lb.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
   }
   function closeLb() {
     lb.classList.remove("is-open"); lb.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
+    if (!albumEl.classList.contains("is-open")) document.body.style.overflow = "";
   }
-  galleryItems.forEach((it) => {
-    it.addEventListener("click", () => { const list = visibleItems(); openLb(list.indexOf(it)); });
-  });
+
+  function openAlbum(fig) {
+    const photos = albumPhotos(fig);
+    const cap = fig.querySelector("figcaption");
+    albumTitle.textContent = fig.dataset.album || (cap ? cap.textContent : "Gallery");
+    if (albumCount) albumCount.textContent = photos.length + (photos.length === 1 ? " Photo" : " Photos");
+    albumGrid.innerHTML = "";
+    photos.forEach((p, i) => {
+      const im = document.createElement("img");
+      im.src = p.src; im.alt = p.alt; im.loading = "lazy";
+      im.addEventListener("click", () => openLb(photos, i));
+      albumGrid.appendChild(im);
+    });
+    albumEl.classList.add("is-open"); albumEl.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    const panel = albumEl.querySelector(".album__panel"); if (panel) panel.scrollTop = 0;
+  }
+  function closeAlbum() {
+    albumEl.classList.remove("is-open"); albumEl.setAttribute("aria-hidden", "true");
+    if (!lb.classList.contains("is-open")) document.body.style.overflow = "";
+  }
+
+  galleryItems.forEach((fig) => { fig.addEventListener("click", () => openAlbum(fig)); });
+  albumClose.addEventListener("click", closeAlbum);
+  albumEl.addEventListener("click", (e) => { if (e.target === albumEl) closeAlbum(); });
+
   lbClose.addEventListener("click", closeLb);
-  lbPrev.addEventListener("click", () => openLb(current - 1));
-  lbNext.addEventListener("click", () => openLb(current + 1));
+  lbPrev.addEventListener("click", () => openLb(lbList, current - 1));
+  lbNext.addEventListener("click", () => openLb(lbList, current + 1));
   lb.addEventListener("click", (e) => { if (e.target === lb) closeLb(); });
   document.addEventListener("keydown", (e) => {
-    if (!lb.classList.contains("is-open")) return;
-    if (e.key === "Escape") closeLb();
-    if (e.key === "ArrowRight") openLb(current + 1);
-    if (e.key === "ArrowLeft") openLb(current - 1);
+    if (lb.classList.contains("is-open")) {
+      if (e.key === "Escape") closeLb();
+      else if (e.key === "ArrowRight") openLb(lbList, current + 1);
+      else if (e.key === "ArrowLeft") openLb(lbList, current - 1);
+    } else if (albumEl.classList.contains("is-open") && e.key === "Escape") {
+      closeAlbum();
+    }
   });
 
   /* ---------- Films: click to load embed ---------- */
