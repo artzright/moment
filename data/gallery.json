@@ -1,0 +1,80 @@
+{
+  "_howto": "5 sections are set up. To add photos to a section, upload them into its folder in assets/images/gallery/ using the EXACT names: cover.jpg (the cover), then 01.jpg, 02.jpg ... 08.jpg. Empty slots are hidden automatically. Ask to add more sections or more than 8 photos.",
+  "albums": [
+    {
+      "title": "Weddings",
+      "cover": "assets/images/gallery/Weddings/cover.jpg",
+      "photos": [
+        "assets/images/gallery/Weddings/cover.jpg",
+        "assets/images/gallery/Weddings/01.jpg",
+        "assets/images/gallery/Weddings/02.jpg",
+        "assets/images/gallery/Weddings/03.jpg",
+        "assets/images/gallery/Weddings/04.jpg",
+        "assets/images/gallery/Weddings/05.jpg",
+        "assets/images/gallery/Weddings/06.jpg",
+        "assets/images/gallery/Weddings/07.jpg",
+        "assets/images/gallery/Weddings/08.jpg"
+      ]
+    },
+    {
+      "title": "Pre-Wedding",
+      "cover": "assets/images/gallery/Pre-Wedding/cover.jpg",
+      "photos": [
+        "assets/images/gallery/Pre-Wedding/cover.jpg",
+        "assets/images/gallery/Pre-Wedding/01.jpg",
+        "assets/images/gallery/Pre-Wedding/02.jpg",
+        "assets/images/gallery/Pre-Wedding/03.jpg",
+        "assets/images/gallery/Pre-Wedding/04.jpg",
+        "assets/images/gallery/Pre-Wedding/05.jpg",
+        "assets/images/gallery/Pre-Wedding/06.jpg",
+        "assets/images/gallery/Pre-Wedding/07.jpg",
+        "assets/images/gallery/Pre-Wedding/08.jpg"
+      ]
+    },
+    {
+      "title": "Haldi & Mehndi",
+      "cover": "assets/images/gallery/Haldi and Mehndi/cover.jpg",
+      "photos": [
+        "assets/images/gallery/Haldi and Mehndi/cover.jpg",
+        "assets/images/gallery/Haldi and Mehndi/01.jpg",
+        "assets/images/gallery/Haldi and Mehndi/02.jpg",
+        "assets/images/gallery/Haldi and Mehndi/03.jpg",
+        "assets/images/gallery/Haldi and Mehndi/04.jpg",
+        "assets/images/gallery/Haldi and Mehndi/05.jpg",
+        "assets/images/gallery/Haldi and Mehndi/06.jpg",
+        "assets/images/gallery/Haldi and Mehndi/07.jpg",
+        "assets/images/gallery/Haldi and Mehndi/08.jpg"
+      ]
+    },
+    {
+      "title": "Sangeet",
+      "cover": "assets/images/gallery/Sangeet/cover.jpg",
+      "photos": [
+        "assets/images/gallery/Sangeet/cover.jpg",
+        "assets/images/gallery/Sangeet/01.jpg",
+        "assets/images/gallery/Sangeet/02.jpg",
+        "assets/images/gallery/Sangeet/03.jpg",
+        "assets/images/gallery/Sangeet/04.jpg",
+        "assets/images/gallery/Sangeet/05.jpg",
+        "assets/images/gallery/Sangeet/06.jpg",
+        "assets/images/gallery/Sangeet/07.jpg",
+        "assets/images/gallery/Sangeet/08.jpg"
+      ]
+    },
+    {
+      "title": "Portraits",
+      "cover": "assets/images/gallery/Portraits/cover.jpg",
+      "photos": [
+        "assets/images/gallery/Portraits/cover.jpg",
+        "assets/images/gallery/Portraits/01.jpg",
+        "assets/images/gallery/Portraits/02.jpg",
+        "assets/images/gallery/Portraits/03.jpg",
+        "assets/images/gallery/Portraits/04.jpg",
+        "assets/images/gallery/Portraits/05.jpg",
+        "assets/images/gallery/Portraits/06.jpg",
+        "assets/images/gallery/Portraits/07.jpg",
+        "assets/images/gallery/Portraits/08.jpg"
+      ]
+    }
+  ]
+}

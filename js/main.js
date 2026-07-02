@@ -281,14 +281,24 @@
     const photos = albumPhotos(fig);
     const cap = fig.querySelector("figcaption");
     albumTitle.textContent = fig.dataset.album || (cap ? cap.textContent : "Gallery");
-    if (albumCount) albumCount.textContent = photos.length + (photos.length === 1 ? " Photo" : " Photos");
     albumGrid.innerHTML = "";
-    photos.forEach((p, i) => {
+    function refreshCount() {
+      const n = albumGrid.querySelectorAll("img").length;
+      if (albumCount) albumCount.textContent = n + (n === 1 ? " Photo" : " Photos");
+    }
+    photos.forEach((p) => {
       const im = document.createElement("img");
-      im.src = p.src; im.alt = p.alt; im.loading = "lazy";
-      im.addEventListener("click", () => openLb(photos, i));
+      im.alt = p.alt;   // eager (not lazy) so empty slots 404 immediately and get removed
+      im.addEventListener("error", () => { im.remove(); refreshCount(); });   // empty slot -> vanish
+      im.addEventListener("load", refreshCount);
+      im.addEventListener("click", () => {
+        const imgs = Array.from(albumGrid.querySelectorAll("img"));           // only photos that exist
+        openLb(imgs.map((x) => ({ src: x.currentSrc || x.src, alt: x.alt })), imgs.indexOf(im));
+      });
+      im.src = p.src;
       albumGrid.appendChild(im);
     });
+    refreshCount();
     albumEl.classList.add("is-open"); albumEl.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
     const panel = albumEl.querySelector(".album__panel"); if (panel) panel.scrollTop = 0;
@@ -333,7 +343,9 @@
       fig.dataset.album = a.title || "Gallery";
       fig.__photos = (a.photos || []).map((src, i) => ({ src: src, alt: (a.title || "Photo") + " — " + (i + 1) }));
       const img = document.createElement("img");
-      img.src = a.cover || (a.photos && a.photos[0]) || ""; img.alt = a.title || ""; img.loading = "lazy";
+      img.alt = a.title || ""; img.loading = "lazy";
+      img.addEventListener("error", () => { fig.style.display = "none"; });  // no cover yet -> hide card
+      img.src = a.cover || (a.photos && a.photos[0]) || "";
       const cap = document.createElement("figcaption");
       cap.textContent = a.title || "Gallery";
       fig.appendChild(img); fig.appendChild(cap);
